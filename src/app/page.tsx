@@ -1,20 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { supabase } from "../utils/supabase";
 
 export default function Home() {
   const {
@@ -22,14 +13,49 @@ export default function Home() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => {
-    console.log(data);
+
+  const onSubmit = async (user: any) => {
+    // console.log(user);
+    const { data, error } = await supabase
+      .from("form")
+      .insert([
+        {
+          full_name: user.full_name,
+          email: user.email,
+          contact_number: user.contact_number,
+          dept: user.dept,
+          year: user.year,
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.error(error);
+      return;
+    } else {
+      localStorage.setItem("registered", "true");
+      // console.log("Data inserted successfully", data);
+    }
+
+    if (data.length === 0) {
+      console.error("No data returned from the insert operation.");
+      return;
+    }
   };
-  console.log(errors);
+
+  if (localStorage.getItem("registered") === "true") {
+    return (
+      <div className="w-full h-screen text-white bg-black flex flex-col justify-center items-center p-4 md:p-0">
+        <h1 className="text-2xl font-bold text-center">
+          You have already registered for the session
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="w-full h-screen text-white bg-black flex flex-col justify-center items-center p-4 md:p-0">
+      <div className="w-full h-screen text-white bg-black flex flex-col justify-center items-center gap-4 p-4 md:p-0">
         <h1 className="text-2xl font-bold text-center">
           OSS LIVE SESSION REGISTRATION
         </h1>
@@ -97,7 +123,7 @@ export default function Home() {
                 <option value="4">4</option>
               </select>
             </div>
-            <Button type="submit">Subscribe</Button>
+            <Button type="submit">Register</Button>
           </div>
         </form>
       </div>
