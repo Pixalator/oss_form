@@ -18,6 +18,7 @@ interface User {
 export default function Hero() {
   const { register, handleSubmit } = useForm<User>();
   const [isRegistered, setIsRegistered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -29,6 +30,7 @@ export default function Hero() {
   }, []);
 
   const onSubmit = async (user: User) => {
+    setIsLoading(true);
     // console.log(user);
     const { data, error } = await supabase
       .from("form")
@@ -43,12 +45,15 @@ export default function Hero() {
       ])
       .select();
 
+    setIsLoading(false);
+
     if (error) {
       console.error(error);
       return;
     } else {
       if (typeof window !== "undefined") {
         localStorage.setItem("registered", "true");
+        window.location.reload(); // Refresh the page
       }
       // console.log("Data inserted successfully", data);
     }
@@ -139,7 +144,9 @@ export default function Hero() {
                 <option value="4">4</option>
               </select>
             </div>
-            <Button type="submit">Register</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Loading..." : "Register"}
+            </Button>
           </div>
         </form>
       </div>
