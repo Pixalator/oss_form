@@ -39,12 +39,13 @@ export default function Home() {
         >
           <div className="w-full flex flex-col justify-center gap-6 max-w-sm items-center space-x-2 text-white">
             <div className="w-full">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="full_name">Full Name</Label>
               <Input
                 type="text"
                 placeholder="Full Name"
-                {...register("Full Name", { max: 50, min: 10, maxLength: 50 })}
+                {...register("full_name")}
                 className="text-white w-full"
+                name="full_name"
               />
             </div>
 
@@ -53,56 +54,48 @@ export default function Home() {
               <Input
                 type="email"
                 placeholder="Email"
-                {...register("Email", { max: 50, min: 10, maxLength: 50 })}
+                {...register("email")}
                 className="text-white w-full"
+                name="email"
               />
             </div>
 
             <div className="w-full">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="contact_number">Contact Number</Label>
               <Input
                 type="tel"
                 placeholder="Contact No."
-                {...register("Contact No.", { required: true })}
+                {...register("contact_number")}
                 className="text-white w-full"
+                name="contact_number"
               />
             </div>
 
             <div className="w-full">
-              <Label htmlFor="email">Email</Label>
-              <Select {...register("Dept.", { required: true })}>
-                <SelectTrigger className="w-full text-white">
-                  <SelectValue placeholder="Select Department" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Department</SelectLabel>
-                    <SelectItem value="AI">AI</SelectItem>
-                    <SelectItem value="CSE">CSE</SelectItem>
-                    <SelectItem value="ETC">ETC</SelectItem>
-                    <SelectItem value="CYBER">CYBER</SelectItem>
-                    <SelectItem value="IT">IT</SelectItem>
-                    <SelectItem value="OTHER">OTHER</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <Label htmlFor="dept">Department</Label>
+              <select
+                {...register("dept", { required: true })}
+                className="w-full border border-white p-2 rounded-md bg-black text-white"
+              >
+                <option value="AI">AI</option>
+                <option value="CSE">CSE</option>
+                <option value="CYBER">CYBER</option>
+                <option value="IT">IT</option>
+                <option value="OTHER">OTHER</option>
+              </select>
             </div>
+
             <div className="w-full">
-              <Label htmlFor="email">Email</Label>
-              <Select {...register("Year", { required: true })}>
-                <SelectTrigger className="w-full text-white">
-                  <SelectValue placeholder="Select Year" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Year</SelectLabel>
-                    <SelectItem value="1">1</SelectItem>
-                    <SelectItem value="2">2</SelectItem>
-                    <SelectItem value="3">3</SelectItem>
-                    <SelectItem value="4">4</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <label htmlFor="year">Year</label>
+              <select
+                {...register("year", { required: true })}
+                className="w-full border border-white p-2 rounded-md bg-black text-white"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
             </div>
             <Button type="submit">Subscribe</Button>
           </div>
